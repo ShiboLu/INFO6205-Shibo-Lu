@@ -10,6 +10,7 @@ import edu.neu.coe.info6205.sort.elementary.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class Assignment2Part3Test {
     @Test
     public void testSortedArray() {
     	Benchmark<Integer> bm = new Benchmark_Timer<>(
-                "testSortedArray", num -> {
+                "testOrderedArray", num -> {
                 	//System.out.println("pre!");
                 	orderedArray(num);
                 	return num;
@@ -37,9 +38,9 @@ public class Assignment2Part3Test {
                 });
 
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {100};
+    	Integer[] lengths = {1,10,100,1000,10000,100000};
     	for(int length : lengths) {
-    		double x = bm.run(length, 100); // length, times
+    		double x = bm.run(length, 10); // length, times
             System.out.println("testSortedArray time with length " + length + ": " + x);
     	}
     }
@@ -60,7 +61,7 @@ public class Assignment2Part3Test {
                 });
 
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {100};
+    	Integer[] lengths = {1,10,100,1000,10000,100000};
     	for(int length : lengths) {
     		double x = bm.run(length, 100); // length, times
             System.out.println("testRandomArray time with length " + length + ": " + x);
@@ -83,7 +84,7 @@ public class Assignment2Part3Test {
                 });
 
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {100};
+    	Integer[] lengths = {1,10,100,1000,10000,100000};
     	for(int length : lengths) {
     		double x = bm.run(length, 100); // length, times
             System.out.println("testReversedArray time with length " + length + ": " + x);
@@ -106,7 +107,8 @@ public class Assignment2Part3Test {
                 });
     	
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {100};
+    	Integer[] lengths = {1,10,100,1000,10000,100000};
+    	list.sort(null);
     	for(int length : lengths) {
     		double x = bm.run(length, 100); // length, times
             System.out.println("testPartiallyOrderedArray time with length " + length + ": " + x);

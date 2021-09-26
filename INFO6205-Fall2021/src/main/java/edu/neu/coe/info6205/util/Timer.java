@@ -64,10 +64,12 @@ public class Timer {
         	//System.out.println("pre");
         	if(preFunction!=null)
         		preResult = preFunction.apply(preResult);
+        	
         	resume();
         	//System.out.println("run");
         	postResult = function.apply(preResult);
         	pauseAndLap();
+        	
         	//System.out.println("post");
         	if(postFunction!=null)
         		postFunction.accept(postResult);
