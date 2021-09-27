@@ -28,34 +28,19 @@ public class Assignment2Part3Test {
                 	//System.out.println("run!");
                 	InsertionSort.sort(list.toArray(new Integer[0]));
                 },
-                b -> {
-                	//System.out.println("post!");
-                    //System.out.println(b);
-                });
+                null);
 
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {4,16,64,256,1024,4096,16384,65535};
+    	Integer[] lengths = {4,64,256,1024,4096,8192,16384,32768,65535};
     	for(int length : lengths) {
         	orderedArray(length);
-    		double x = bm.run(length, 100); // length, times
+    		double x = bm.run(length, 10); // length, times
             System.out.println("testSortedArray time with length " + length + ": " + x);
     	}
     }
     
     @Test
     public void testRandomArray() {
-//    	Benchmark<Integer> bm = new Benchmark_Timer<>(
-//                "testRandomArray", num -> {
-//                	randomArray(num);
-//                	return num;
-//                	},
-//                num -> {
-//                	//System.out.println(list);
-//                	InsertionSort.sort(list.toArray(new Integer[0]));
-//                },
-//                b -> {
-//                    //System.out.println(b);
-//                });
     	Benchmark<Integer> bm = new Benchmark_Timer<>(
       "testRandomArray", null,
       num -> {
@@ -65,10 +50,10 @@ public class Assignment2Part3Test {
       null);
 
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {4,16,64,256,1024,4096,16384,65535};
+    	Integer[] lengths = {4,64,256,1024,4096,8192,16384,32768,65535};
     	for(int length : lengths) {
     		randomArray(length);
-    		double x = bm.run(length, 100); // length, times
+    		double x = bm.run(length, 10); // length, times
             System.out.println("testRandomArray time with length " + length + ": " + x);
     	}
     }
@@ -84,10 +69,10 @@ public class Assignment2Part3Test {
                 null);
 
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {4,16,64,256,1024,4096,16384,65535};
+    	Integer[] lengths = {4,64,256,1024,4096,8192,16384,32768,65535};
     	for(int length : lengths) {
         	reverseOrderedArray(length);
-    		double x = bm.run(length, 100); // length, times
+    		double x = bm.run(length, 10); // length, times
             System.out.println("testReversedArray time with length " + length + ": " + x);
     	}
     }
@@ -103,11 +88,11 @@ public class Assignment2Part3Test {
                 null);
     	
     	//Integer[] lengths = {100, 10000, 100000, 1000000, 10000000};
-    	Integer[] lengths = {4,16,64,256,1024,4096,16384,65535};
+    	Integer[] lengths = {4,64,256,1024,4096,8192,16384,32768,65535};
     	list.sort(null);
     	for(int length : lengths) {
         	partiallyOrderedArray(length);
-    		double x = bm.run(length, 100); // length, times
+    		double x = bm.run(length, 10); // length, times
             System.out.println("testPartiallyOrderedArray time with length " + length + ": " + x);
     	}
     }
