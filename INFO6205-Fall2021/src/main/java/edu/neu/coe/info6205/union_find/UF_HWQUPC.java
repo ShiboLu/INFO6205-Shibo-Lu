@@ -9,6 +9,8 @@ package edu.neu.coe.info6205.union_find;
 
 import java.util.Arrays;
 
+import edu.neu.coe.info6205.life.base.Countable;
+
 /**
  * Height-weighted Quick Union with Path Compression
  */
@@ -197,5 +199,38 @@ public class UF_HWQUPC implements UF {
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED update parent to value of grandparent
     	this.parent[i] = getParent(getParent(i));
+    }
+    
+    public static int count(int n) {
+    	int m = 0;
+    	UF myUF = new UF_HWQUPC(n);
+    	while(myUF.components() > 1) {
+    		m++;
+        	int x = (int) (Math.random()*n);
+        	int y = (int) (Math.random()*n);
+        	if(!myUF.isConnected(x, y)) {
+        		myUF.connect(x, y);
+        	}
+        	//System.out.println("components: "+ myUF.components() +"m: "+ m +", x: "+ x +", y: " + y);
+    	}
+    	
+    	return m;
+    	
+    }
+    
+    public static void main(String[] args)
+    {    
+    	int number = 10;
+    	int repeat = 10;
+    	for(int i = 0; i < 1000; i++) {
+
+        	int result = 0;
+    		for(int k = 0; k < repeat; k++) {
+    			result += count(number);
+    		}
+    		result /= repeat;
+    		System.out.println("numbers: " + number + " m: " + result);
+    		number += 10;
+    	}
     }
 }
