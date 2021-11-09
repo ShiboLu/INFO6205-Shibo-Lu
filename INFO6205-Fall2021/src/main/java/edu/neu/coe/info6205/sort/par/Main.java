@@ -16,14 +16,17 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class Main {
 
+	public static int threadCount = 16;
+	public static int arraySize = 2000000;
+	public static int cutoffTimes = 1000;
     public static void main(String[] args) {
         processArgs(args);
-        System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+        System.out.println("Degree of parallelism: " + threadCount);
         Random random = new Random();
-        int[] array = new int[2000000];
+        int[] array = new int[arraySize];
         ArrayList<Long> timeList = new ArrayList<>();
-        for (int j = 50; j < 100; j++) {
-            ParSort.cutoff = 10000 * (j + 1);
+        for (int j = 0; j < 500; j++) {
+            ParSort.cutoff = cutoffTimes * (j + 1);
             // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
             long time;
             long startTime = System.currentTimeMillis();
@@ -45,7 +48,7 @@ public class Main {
             BufferedWriter bw = new BufferedWriter(isr);
             int j = 0;
             for (long i : timeList) {
-                String content = (double) 10000 * (j + 1) / 2000000 + "," + (double) i / 10 + "\n";
+                String content = threadCount + "," + (double) cutoffTimes * (j + 1) / arraySize + ","+ (double) i / 10 + "\n";
                 j++;
                 bw.write(content);
                 bw.flush();
