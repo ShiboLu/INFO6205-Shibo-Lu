@@ -10,7 +10,7 @@ import java.util.concurrent.ForkJoinPool;
  */
 class ParSort {
 
-    public static int cutoff = 5000;
+    public static int cutoff = 1000;
     public static ForkJoinPool myPool = new ForkJoinPool(Main.threadCount);
     public static void sort(int[] array, int from, int to) {
         if (to - from < cutoff) Arrays.sort(array, from, to);
