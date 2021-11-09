@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.sort.par;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -16,48 +17,71 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class Main {
 
-	public static int threadCount = 16;
-	public static int arraySize = 2000000;
+	public static int threadCount = 15;
+	public static int arraySize = 1000000;
 	public static int cutoffTime = 1000;
-    public static void main(String[] args) {
+    @SuppressWarnings("static-access")
+	public static void main(String[] args) {
         processArgs(args);
-        System.out.println("Degree of parallelism: " + threadCount);
+        System.out.println("Degree of parallelism: " + ParSort.myPool.getCommonPoolParallelism());
         Random random = new Random();
-        int[] array = new int[arraySize];
-        ArrayList<Long> timeList = new ArrayList<>();
-        for (int j = 10; j < 250; j++) {
-            ParSort.cutoff = cutoffTime * (j + 1);
-            // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
-            long time;
-            long startTime = System.currentTimeMillis();
-            for (int t = 0; t < 10; t++) {
-                for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
-                ParSort.sort(array, 0, array.length);
-            }
-            long endTime = System.currentTimeMillis();
-            time = (endTime - startTime);
-            timeList.add(time);
+        FileOutputStream fis;
+		try {
+			fis = new FileOutputStream("./src/result.csv");
+	        OutputStreamWriter isr = new OutputStreamWriter(fis);
+	        BufferedWriter bw = new BufferedWriter(isr);
+	        for(int ss = 1; ss < 5; ss++) {
 
+	            ArrayList<Long> timeList = new ArrayList<>();
+	            int[] array = new int[arraySize*ss];
+		        for (int j = 10; j < 250; j++) {
+		            ParSort.cutoff = ss*cutoffTime * (j + 1);
+		            // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
+		            for (int t = 0; t < 5; t++) {
+		            	// warm-up
+		                for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
+		                ParSort.sort(array, 0, array.length);
+		            }
+		            long time;
+		            long startTime = System.currentTimeMillis();
+		            for (int t = 0; t < 10; t++) {
+		                for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
+		                ParSort.sort(array, 0, array.length);
+		            }
+		            long endTime = System.currentTimeMillis();
+		            time = (endTime - startTime);
+		            timeList.add(time);
+		
+		
+		            System.out.println("Threads:" + ParSort.myPool.getCommonPoolParallelism() + " size: " + array.length + "  cutoff：" + (ParSort.cutoff) + "\t10times Time:" + time + "ms");
+		
+		        }
+		        try {
+		            
+		            int j = 0;
+		            for (long i : timeList) {
+		                @SuppressWarnings("static-access")
+						String content = ParSort.myPool.getCommonPoolParallelism()+ "," + array.length + "," + (double) cutoffTime * (j + 1) + "," + (double) cutoffTime * (j + 1) / arraySize + ","+ (double) i / 10 + "\n";
+		                j++;
+		                bw.write(content);
+		                bw.flush();
+		            }
+		
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+	        }
 
-            System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t10times Time:" + time + "ms");
-
-        }
         try {
-            FileOutputStream fis = new FileOutputStream("./src/result.csv");
-            OutputStreamWriter isr = new OutputStreamWriter(fis);
-            BufferedWriter bw = new BufferedWriter(isr);
-            int j = 0;
-            for (long i : timeList) {
-                String content = threadCount + "," + (double) cutoffTime * (j + 1) / arraySize + ","+ (double) i / 10 + "\n";
-                j++;
-                bw.write(content);
-                bw.flush();
-            }
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
     private static void processArgs(String[] args) {
