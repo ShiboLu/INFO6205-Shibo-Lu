@@ -17,7 +17,7 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class Main {
 
-	public static int threadCount = 15;
+	public static int threadCount = 16;
 	public static int arraySize = 1000000;
 	public static int cutoffTime = 1000;
     @SuppressWarnings("static-access")
@@ -35,7 +35,7 @@ public class Main {
 	            ArrayList<Long> timeList = new ArrayList<>();
 	            int[] array = new int[arraySize*ss];
 		        for (int j = 10; j < 250; j++) {
-		            ParSort.cutoff = ss*cutoffTime * (j + 1);
+		            ParSort.cutoff = cutoffTime * (j + 1);
 		            // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
 		            for (int t = 0; t < 5; t++) {
 		            	// warm-up
@@ -61,7 +61,7 @@ public class Main {
 		            int j = 0;
 		            for (long i : timeList) {
 		                @SuppressWarnings("static-access")
-						String content = ParSort.myPool.getCommonPoolParallelism()+ "," + array.length + "," + (double) cutoffTime * (j + 1) + "," + (double) cutoffTime * (j + 1) / arraySize + ","+ (double) i / 10 + "\n";
+						String content = ParSort.myPool.getCommonPoolParallelism()+ "," + array.length + "," + (double) cutoffTime * (j + 1) + "," + (double) cutoffTime * (j + 1) / array.length + ","+ (double) i / 10 + "\n";
 		                j++;
 		                bw.write(content);
 		                bw.flush();
