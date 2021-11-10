@@ -17,13 +17,13 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class Main {
 
-	public static int threadCount = 16;
-	public static int arraySize = 1000000;
+	public static int threadCount = 8;
+	public static int arraySize = 10000000;
 	public static int cutoffTime = 1000;
     @SuppressWarnings("static-access")
 	public static void main(String[] args) {
         processArgs(args);
-        System.out.println("Degree of parallelism: " + ParSort.myPool.getCommonPoolParallelism());
+        System.out.println("Degree of parallelism: " + ParSort.myPool.getParallelism());
         Random random = new Random();
         FileOutputStream fis;
 		try {
